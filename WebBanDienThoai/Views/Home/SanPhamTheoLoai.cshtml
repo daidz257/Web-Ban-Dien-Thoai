@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "SanPhamTheoLoai";
+    Layout = "~/Views/Shared/_LayoutShop.cshtml";
+}
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<TDanhMucSp>
+@foreach (var item in Model)
+{
+    <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
+        <!-- single-product-wrap start -->
+    @await Html.PartialAsync("PartialSanPham", item)
+        <!-- single-product-wrap end -->
+    </div>
+}
+
+@section paginatoin {
+<div class="paginatoin-area">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <ul class="pagination-box">
+                <li><a href="#">@Html.PagedListPager(Model, page=>Url.Action("SanPhamTheoLoai", new{page=page, maloai=ViewBag.maloai}))</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+}

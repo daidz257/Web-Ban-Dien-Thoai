@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TLoaiSp>
+@foreach(var item in Model)
+{
+    var getUrl = "https://localhost:7062/api/productapi/"+ item.MaLoai;
+@*    <li><a style="cursor:pointer" onclick="showProductByCategory('@getUrl')">@item.Loai</a></li>
+*@    <li><a asp-controller="Home" asp-action="SanPhamTheoLoai" asp-route-maloai="@item.MaLoai">@item.Loai</a></li>
+}
+<script>
+    function showProductByCategory(getUrl){
+        var str='';
+        $.ajax({
+            type: 'GET',
+            url: getUrl,
+            dataType: 'json',
+            success: function(data){
+                $.each(data, function(key, val){
+                    //str +='<p>'+val.tenSp+'</p>'
+                    str+='<div class="single-product-wrap" >';
+                        str+='<div class="product-image" >';
+                            str+='<a href="single-product.html" >';
+                                str+='<img src=\"';
+                                var linkImage = "../ProductImages/Images/"+$.trim(val.anhDaiDien);
+                                str+= linkImage
+                str+='\" alt = "Li's Product Image" ></a>';
+                                    str+='< span class="sticker" > New </span></div>';
+                                        str+='<div class="product_desc" >';
+                                            str+='<div class="product_desc_info" >';
+                                                str+='<div class="product-review" >';
+                                                    str+='<h5 class="manufacturer" >';
+                                                        str+='<a href="product-details.html" > Graphic Corner </a></h5>';
+                                                            str+='< div class="rating-box" >';
+                                                                str+='<ul class="rating" >';
+                                                                    str+='<li><i class="fa fa-star-o" > </i></li>';
+                                                                        str+='<li><i class="fa fa-star-o" > </i></li>';
+                                                                            str+='<li><i class="fa fa-star-o" > </i></li>';
+                                                                                str+='<li class="no-star" > <i class="fa fa-star-o" > </i></li>';
+                                                                                    str+='<li class="no-star" > <i class="fa fa-star-o" > </i></li></ul></div></div>';
+                                                                                        str+='<h4> <a class="product_name" href=\"/Home/ProductDetail?maSp=';
+                                                                                        str+=$.trim(val.tenSp);
+                                                                                        str+='\">';
+                                                                                        str+=$.trim(val.tenSp);
+                                                                                        str+='</a></h4>';
+                                                                                            str+='<div class="price-box" >';
+                                                                                                str+='<span class="new-price" >';
+                                                                                                str+=val.gia.toString();
+                                                                                                str+='</span></div></div>';
+                                                                                                    str+='<div class="add-actions" >';
+                                                                                                        str+='<ul class="add-actions-link" >';
+                                                                                                            str+='<li class="add-cart active" > <a href="shopping-cart.html" > Add to cart </a></li>';
+                                                                                                                str+='<li><a href="#" title = "quick view" class="quick-view-btn" data - toggle="modal" data - target="#exampleModalCenter" > <i class="fa fa-eye" > </i></a> </li>';
+                });
+                $('#displayProducts').html(str);
+            },
+            Error: function(xhr){
+                alert(xhr.responseText)
+            }
+        });
+    }
+</script>

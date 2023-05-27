@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Shop";
+    Layout = "~/Views/Shared/_LayoutShop.cshtml";
+}
+
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<TDanhMucSp>
+@foreach (var item in Model)
+{
+    <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
+        <!-- single-product-wrap start -->
+    @await Html.PartialAsync("PartialSanPham", item)
+        <!-- single-product-wrap end -->
+    </div>
+}
+<div class="paginatoin-area">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <ul class="pagination-box">
+                <li><a href="#">@Html.PagedListPager(Model, page=>Url.Action("Shop", new{page=page}))</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@section scripts2 {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $(".ajax-add-to-cart").click(function () {
+                $.ajax({
+                    url: "/Cart/AddToCart",
+                    data: {
+                        maSp: $(this).data("id"),
+                        SoLuong: 1,
+                        type: "ajax"
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thêm Giỏ hàng thành công',
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                        $("#cart_count").html(data.SoLuong);
+
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Thêm giỏ hàng thất bại',
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
+}

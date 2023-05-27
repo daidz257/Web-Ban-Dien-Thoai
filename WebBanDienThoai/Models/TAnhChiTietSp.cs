@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace WebBanDienThoai.Models;
+
+public partial class TAnhChiTietSp
+{
+    public string MaChiTietSp { get; set; } = null!;
+
+    public string TenFileAnh { get; set; } = null!;
+
+    public virtual TChiTietSanPham MaChiTietSpNavigation { get; set; } = null!;
+}
